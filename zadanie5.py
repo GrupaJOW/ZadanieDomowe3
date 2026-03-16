@@ -1,7 +1,8 @@
 from collections import deque
 
 def bfs(przepustowosc, sasiedzi, zrodlo, ujscie, rodzic):
-    odwiedzone = [False] * len(przepustowosc)
+    n = len(przepustowosc)
+    odwiedzone = [False] * n
     kolejka = deque([zrodlo])
     odwiedzone[zrodlo] = True
     rodzic[zrodlo] = -1
@@ -34,7 +35,7 @@ def edmonds_karp(liczba_wierzcholkow, krawedzie, zrodlo, ujscie):
     maksymalny_przeplyw = 0
 
     while bfs(przepustowosc, sasiedzi, zrodlo, ujscie, rodzic):
-        przeplyw_sciezki = float("inf")
+        przeplyw_sciezki = float('inf')
         v = ujscie
 
         while v != zrodlo:
@@ -54,18 +55,22 @@ def edmonds_karp(liczba_wierzcholkow, krawedzie, zrodlo, ujscie):
     return maksymalny_przeplyw
 
 
-liczba_wierzcholkow = int(input("Podaj liczbę wierzchołków: "))
-liczba_krawedzi = int(input("Podaj liczbę krawędzi: "))
+# Przykladowe dane
+liczba_wierzcholkow = 6
+krawedzie = [
+    (0, 1, 16),
+    (0, 2, 13),
+    (1, 2, 10),
+    (2, 1, 4),
+    (1, 3, 12),
+    (2, 4, 14),
+    (3, 2, 9),
+    (4, 3, 7),
+    (3, 5, 20),
+    (4, 5, 4)
+]
 
-krawedzie = []
+zrodlo = 0
+ujscie = 5
 
-print("Podawaj krawędzie w formacie: początek koniec przepustowość")
-for _ in range(liczba_krawedzi):
-    poczatek, koniec, wartosc = map(int, input().split())
-    krawedzie.append((poczatek, koniec, wartosc))
-
-zrodlo = int(input("Podaj zródło: "))
-ujscie = int(input("Podaj ujście: "))
-
-wynik = edmonds_karp(liczba_wierzcholkow, krawedzie, zrodlo, ujscie)
-print("Maksymalny przepływ:", wynik)
+print("Maksymalny przepływ: ", edmonds_karp(liczba_wierzcholkow, krawedzie, zrodlo, ujscie))
